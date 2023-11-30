@@ -13,6 +13,9 @@ mod HackTemplate {
     const ETH_USD: felt252 = 19514442401534788;  //ETH/USD to felt252, can be used as asset_id
     const BTC_USD: felt252 = 18669995996566340;  //BTC/USD
 
+    const USDT_USD: felt252 = 6148333044652921668 //USDT/USD
+    const DAI_USD: felt252 = 19212080998863684 //DAI/USD
+    const USDC_USD: felt252 = 6148332971638477636 //USDC/USD
 
     #[storage]
     struct Storage {
