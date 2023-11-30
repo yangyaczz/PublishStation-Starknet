@@ -1,3 +1,12 @@
+use starknet::ContractAddress;
+
+#[starknet::interface]
+trait HackTemplateABI<TContractState> {
+    fn get_asset_price(self: @TContractState, asset_id: felt252) -> u128;
+
+    fn get_btc_price(self: @TContractState) -> u128;
+}
+
 #[starknet::contract]
 mod HackTemplate {
     use super::{ContractAddress, HackTemplateABI};
@@ -42,6 +51,19 @@ mod HackTemplate {
             // Call the Oracle contract, for a spot entry
             let output: PragmaPricesResponse = oracle_dispatcher
                 .get_data_median(DataType::SpotEntry(asset_id));
+
+            return output.price;
+        }
+
+        fn get_btc_price(self: @ContractState) -> u128 {
+            // Retrieve the oracle dispatcher
+            let oracle_dispatcher = IPragmaABIDispatcher {
+                contract_address: self.pragma_contract.read()
+            };
+
+            // Call the Oracle contract, for a spot entry
+            let output: PragmaPricesResponse = oracle_dispatcher
+                .get_data_median(DataType::SpotEntry(BTC_USD));
 
             return output.price;
         }
